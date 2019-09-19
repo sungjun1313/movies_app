@@ -13,7 +13,7 @@ const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
-)
+);
 
 const Login = props => (
   <DismissKeyboard>

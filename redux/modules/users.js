@@ -221,6 +221,7 @@ function createAccountAction(username, name, email, password1, password2, profil
       console.log(pair[0]+', '+pair[1]);
     }
     */
+
     try{
 
       const fd = new FormData();
@@ -235,7 +236,7 @@ function createAccountAction(username, name, email, password1, password2, profil
           fd.append("profile_image", profile_image);
         }
       }
-
+      //console.log(url);
       const result = await fetch(url, {
           method: "POST",
           headers: {
