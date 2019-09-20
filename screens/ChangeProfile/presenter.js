@@ -6,6 +6,7 @@ import {
   ScrollView
 } from 'react-native';
 import FitImage from 'react-native-fit-image';
+import {MaterialIcons} from '@expo/vector-icons';
 
 const {width, height} = Dimensions.get("window");
 
@@ -15,19 +16,11 @@ const DismissKeyboard = ({children}) => (
   </TouchableWithoutFeedback>
 );
 
-const Register = (props) => (
+const ChangeProfile = (props) => (
   <DismissKeyboard>
     <ScrollView style={styles.container}>
 
       <View style={styles.content}>
-        <TextInput
-          placeholder="아이디"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          autoCorrect={false}
-          value={props.username}
-          onChangeText={props.changeUsername}
-        />
         <TextInput
           placeholder="이름"
           style={styles.textInput}
@@ -64,14 +57,44 @@ const Register = (props) => (
             </View>
           </TouchableOpacity>
 
-          {props.profile_image
+          {props.profile_image && props.profile_image === props.pi
             && (
                 <View style={styles.profileBox}>
                   <View style={styles.circleBox}>
+                    <FitImage
+                      source={{uri:props.profile_image}}
+                      style={{marginBottom:10}}
+                    />
+                  </View>
+
+                  <TouchableOpacity onPressOut={props.deleteProfileImage}>
+                    <View style={styles.checkBox}>
+                      <MaterialIcons
+                        name={props.delete_image ? "check-box" : "check-box-outline-blank"}
+                        color="#3e99ee"
+                        size={40}
+                      />
+                      <Text>
+                        삭제
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )
+          }
+
+          {props.profile_image && props.profile_image !== props.pi
+            && (
+                <View style={styles.profileBox}>
+
+                <View style={styles.circleBox}>
                   <FitImage
                     source={props.profile_image}
+                    style={{marginBottom:10}}
                   />
-                  </View>
+                </View>
+
+
                   <TouchableOpacity style={styles.profileTouch} onPressOut={props.resetProfileImage}>
                     <View style={styles.photoButton}>
                       <Text style={styles.btnText}>
@@ -85,24 +108,7 @@ const Register = (props) => (
 
         </View>
 
-        <TextInput
-          placeholder="비밀번호"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          secureTextEntry={true}
-          value={props.password1}
-          onChangeText={props.changePassword1}
-        />
-        <TextInput
-          placeholder="비밀번호 확인"
-          style={styles.textInput}
-          autoCapitalize={"none"}
-          secureTextEntry={true}
-          value={props.password2}
-          onChangeText={props.changePassword2}
-          returnKeyType={"send"}
-          onSubmitEditing={props.submit}
-        />
+
         <TouchableOpacity style={styles.touchable} onPressOut={props.submit}>
           <View style={styles.button}>
             {props.isSubmitting
@@ -110,7 +116,7 @@ const Register = (props) => (
                   <ActivityIndicator size="small" color="white" />
                 )
               : (
-                  <Text style={styles.btnText}>회원가입</Text>
+                  <Text style={styles.btnText}>변경</Text>
                 )
               }
           </View>
@@ -207,27 +213,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#52aacc",
     borderRadius: 5,
     alignSelf: "center"
+  },
+  checkBox: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    alignItems: "center"
   }
-
 });
 
-Register.propTypes = {
-  username: PropTypes.string,
+ChangeProfile.propTypes = {
   name: PropTypes.string,
   email: PropTypes.string,
-  password1: PropTypes.string,
-  password2: PropTypes.string,
-  profile_image: PropTypes.object,
+  profile_image: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  pi: PropTypes.string,
+  delete_image: PropTypes.bool.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
-  changeUsername: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,
-  changePassword1:PropTypes.func.isRequired,
-  changePassword2: PropTypes.func.isRequired,
   resetProfileImage: PropTypes.func.isRequired,
+  deleteProfileImage: PropTypes.func.isRequired,
   changeTakePhoto: PropTypes.func.isRequired,
   changeGetPhoto: PropTypes.func.isRequired,
 };
 
-export default Register;
+export default ChangeProfile;

@@ -9,6 +9,7 @@ const SAVE_TOKEN = 'SAVE_TOKEN';
 const LOGOUT = 'LOGOUT';
 const SET_PROFILE = 'SET_PROFILE';
 const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
+const SET_CHANGEPROFILE = 'SET_CHANGEPROFILE';
 
 //Action creators
 function saveToken(token){
@@ -37,6 +38,13 @@ function setNotifications(notifications){
     notifications
   };
 };
+
+function setChangeProfile(profile){
+  return {
+    type: SET_CHANGEPROFILE,
+    profile
+  }
+}
 
 //API Action
 function loginAction(username, password){
@@ -232,9 +240,11 @@ function createAccountAction(username, name, email, password1, password2, profil
       fd.append("password1", password1);
       fd.append("password2", password2);
       if(profile_image){
-        if(typeof profile_image === 'object'){
-          fd.append("profile_image", profile_image);
-        }
+        fd.append("profile_image", {
+          uri: profile_image,
+          type: "image/jpeg",
+          name: "profile.jpg"
+        });
       }
       //console.log(url);
       const result = await fetch(url, {
@@ -295,15 +305,22 @@ function changeProfileAction(name, email, profile_image, delete_image){
   return async (dispatch, getState) => {
     const {users: {token}} = getState();
     const url = `${API_URL}/users/change/`;
+
     try{
         const fd = new FormData();
         fd.append("name", name);
         fd.append("email", email);
-        if(delete_image === 'y'){
+
+        if(delete_image){
           fd.append("profile_image", "");
         }else if(profile_image){
-          if(typeof profile_image === 'object'){
-            fd.append("profile_image", profile_image);
+
+          if(profile_image.uri){
+            fd.append("profile_image", {
+              uri: profile_image.uri,
+              type: "image/jpeg",
+              name: "profile.jpg"
+            });
           }
 
         }
@@ -324,6 +341,23 @@ function changeProfileAction(name, email, profile_image, delete_image){
 
         //const resultJson = await result.json();
         if(result.ok){
+          if(profile_image){
+            if(profile_image.uri){
+              const newProfileImage = profile_image.uri;
+              dispatch(setChangeProfile({name, email, newProfileImage}));
+            }else{
+              let newProfileImage = profile_image;
+              if(delete_image){
+                newProfileImage = null;
+              }
+              dispatch(setChangeProfile({name, email, newProfileImage}));
+            }
+          }else{
+            const newProfileImage = null;
+            dispatch(setChangeProfile({name, email, newProfileImage}))
+          }
+
+
           return 'success';
         }else{
           return result.json();
@@ -386,6 +420,8 @@ function reducer(state=initialState, action){
       return applyLogout(state, action);
     case SET_NOTIFICATIONS:
       return applySetNotifications(state, action);
+    case SET_CHANGEPROFILE:
+      return applySetChangeProfile(state, action);
     default:
       return state;
   }
@@ -424,6 +460,20 @@ function applySetNotifications(state, action){
   return {
     ...state,
     notifications
+  };
+};
+
+function applySetChangeProfile(state, action){
+  const {profile} = action;
+  const newProfile = {
+    ...state.profile,
+    name: profile.name,
+    email: profile.email,
+    profile_image: profile.newProfileImage
+  };
+  return {
+    ...state,
+    profile: newProfile
   };
 };
 

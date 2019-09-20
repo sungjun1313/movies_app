@@ -1,11 +1,13 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import {connect} from 'react-redux';
+import {actionCreators as userActions} from '../../redux/modules/users';
+import Container from './container';
 
-import GetPhoto from '../../components/GetPhoto';
-import TakePhoto from '../../components/TakePhoto';
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    passwordResetAction: async (email) => {
+      return await dispatch(userActions.passwordResetAction(email));
+    }
+  };
+};
 
-const ResetPassword = props => (
-  <TakePhoto />
-);
-
-export default ResetPassword;
+export default connect(null, mapDispatchToProps)(Container);

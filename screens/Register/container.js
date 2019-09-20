@@ -13,7 +13,6 @@ class Container extends Component {
     password1: '',
     password2: '',
     profile_image: null,
-    show_image: '',
     isSubmitting: false,
     isTakePhoto: false,
     isGetPhoto: false,
@@ -83,13 +82,13 @@ class Container extends Component {
   _submit = async (event) => {
     const {username, name, email, password1, password2, profile_image, isSubmitting} = this.state;
     const {createAccountAction} = this.props;
-
+    //console.log(event);
     if(!isSubmitting){
       if(username && name && email && password1 && password2){
         this.setState({isSubmitting: true});
 
-        const result = await createAccountAction(username, name, email, password1, password2, profile_image);
-        console.log(`[result] ${result}`);
+        const result = await createAccountAction(username, name, email, password1, password2, profile_image.uri);
+        //console.log(`[result] ${result}`);
         if(result !== 'success'){
           if(result.non_field_errors){
             alert(result.non_field_errors.toString());
@@ -144,7 +143,7 @@ class Container extends Component {
   };
 
   render(){
-      const {username, name, email, password1, password2, profile_image, show_image, isSubmitting, isTakePhoto, isGetPhoto, isRegister} = this.state;
+      const {username, name, email, password1, password2, profile_image, isSubmitting, isTakePhoto, isGetPhoto, isRegister} = this.state;
       //console.log(`[profile_image] ${profile_image}`);
       if(isRegister){
         return (
@@ -155,14 +154,12 @@ class Container extends Component {
             password1={password1}
             password2={password2}
             profile_image = {profile_image}
-            show_image={show_image}
             isSubmitting={isSubmitting}
             changeUsername={this._changeUsername}
             changeName={this._changeName}
             changeEmail={this._changeEmail}
             changePassword1={this._changePassword1}
             changePassword2={this._changePassword2}
-            changeProfileImage={this._changeProfileImage}
             resetProfileImage={this._resetProfileImage}
             submit={this._submit}
             changeTakePhoto={this._changeTakePhoto}

@@ -14,23 +14,20 @@ class Container extends Component {
     profile: PropTypes.object
   };
 
-  componentDidMount = async () =>{
-    const {getProfileAction} = this.props;
+  componentDidMount =  () => {
+    this._getProfileAction();
+  };
 
+  _getProfileAction = async () => {
+    const {getProfileAction} = this.props;
     const result = await getProfileAction();
-    /*
-    if(result !== 'success'){
-      alert(result);
-    }
-    */
     if(result === 'success'){
       this.setState({
         loaded: true
       });
     }else{
-      alert(result);
+      Alert.alert(result);
     }
-
   };
 
   logout = () => {
@@ -53,12 +50,16 @@ class Container extends Component {
     );
   };
 
+
   render(){
-    console.log(this.state.loaded);
+    const {loaded} = this.state;
     return (
         <Profile
           {...this.props.navigation}
+          {...this.props.profile}
+          loaded={loaded}
           logout={this.logout}
+          getProfileAction={this._getProfileAction}
         />
     );
   };
