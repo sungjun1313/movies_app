@@ -12,6 +12,7 @@ const MovieNavigation = createStackNavigator(
       screen: MovieList,
       navigationOptions: {
         //header: null
+        /*
         headerTitle: (
           <View style={{flex:1, alignItems:'center'}}>
             <Image
@@ -21,6 +22,7 @@ const MovieNavigation = createStackNavigator(
             />
           </View>
         )
+        */
       }
     },
     MovieDetail: {

@@ -4,6 +4,7 @@ import {actionCreators as UserActions} from './users';
 
 //Actions
 const SET_MOVIELIST = "SET_MOVIELIST";
+const ADD_MOVIELIST = "ADD_MOVIELIST";
 const SET_MOVIEDETAIL = "SET_MOVIEDETAIL";
 const CREATE_REVIEW = "CREATE_REVIEW";
 const UPDATE_REVIEW = "UPDATE_REVIEW";
@@ -13,6 +14,13 @@ const DELETE_REVIEW = "DELETE_REVIEW";
 function setMovieList(payload){
   return {
     type: SET_MOVIELIST,
+    payload
+  };
+};
+
+function addMovieList(payload){
+  return {
+    type: ADD_MOVIELIST,
     payload
   };
 };
@@ -68,7 +76,7 @@ function getMovieList(page, search){
     }else{
       url = `${API_URL}/movies/?page=${defaultPage}`;
     }
-  
+
     try{
       const result = await fetch(url, {
         method: "GET",
@@ -80,7 +88,12 @@ function getMovieList(page, search){
       const resultJson = await result.json();
       console.log(resultJson);
       if(result.ok){
-        dispatch(setMovieList(resultJson));
+        if(defaultPage === 1){
+          dispatch(setMovieList(resultJson));
+        }else{
+          dispatch(addMovieList(resultJson));
+        }
+
         return 'success';
       }else{
         return resultJson;
@@ -244,6 +257,8 @@ function reducer(state=initialState, action){
   switch(action.type){
     case SET_MOVIELIST:
       return applySetMovieList(state, action);
+    case ADD_MOVIELIST:
+      return applyAddMovieList(state, action);
     case SET_MOVIEDETAIL:
       return applySetMovieDetail(state, action);
     case CREATE_REVIEW:
@@ -264,6 +279,18 @@ function applySetMovieList(state, action){
   return {
     ...state,
     movie_list: [...payload.results],
+    page_count: payload.count,
+    page_next: payload.next,
+    page_prev: payload.previous
+  };
+};
+
+function applyAddMovieList(state, action){
+  const {payload} = action;
+  newMovieList = [...state.movie_list, ...payload.results];
+  return {
+    ...state,
+    movie_list: newMovieList,
     page_count: payload.count,
     page_next: payload.next,
     page_prev: payload.previous
