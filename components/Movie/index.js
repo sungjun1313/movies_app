@@ -8,11 +8,16 @@ import Moment from 'moment';
 
 const Movie = props => (
   <View style={styles.container}>
-    <TouchableOpacity onPressOut={() => props.navigate('MovieDetail', {movieId:props.movieId, title:props.title})}>
-      <Text style={styles.header}>
-        {props.title}
-      </Text>
-    </TouchableOpacity>
+    {!props.detail
+      && (
+          <TouchableOpacity onPressOut={() => props.navigate('MovieDetail', {movieId:props.movieId, title:props.title})}>
+            <Text style={styles.header}>
+              {props.title}
+            </Text>
+          </TouchableOpacity>
+        )
+    }
+
     <View style={styles.contentBox}>
 
       {props.poster_image
@@ -61,12 +66,25 @@ const Movie = props => (
         </Text>
       </View>
 
+      {props.detail
+        && (
+            <View>
+              <Text style={styles.storyTitle}>
+                내용
+              </Text>
+              <Text style={styles.storyContent}>
+                {props.story}
+              </Text>
+            </View>
+          )
+      }
+
     </View>
   </View>
 );
 
 Movie.propTypes = {
-  navigate: PropTypes.func.isRequired,
+  navigate: PropTypes.func,
   movieId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   poster_image: PropTypes.string,
@@ -74,7 +92,9 @@ Movie.propTypes = {
   director: PropTypes.string,
   release: PropTypes.string,
   average_grade: PropTypes.number,
-  total_reviews: PropTypes.number
+  total_reviews: PropTypes.number,
+  story: PropTypes.string,
+  detail: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -83,17 +103,20 @@ const styles = StyleSheet.create({
     borderColor: "#cccccc",
     borderRadius: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    marginBottom: 10,
+    marginBottom: 20,
     flexWrap: "wrap"
   },
   header: {
     fontSize: 16,
     fontWeight: "600",
-    height: 25,
+    height: 32,
     textAlign: "justify",
+    justifyContent: "center",
     borderBottomColor: "#cccccc",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingTop: 4,
+    paddingBottom: 4,
   },
   contentBox: {
     padding: 0
@@ -106,11 +129,11 @@ const styles = StyleSheet.create({
   topBox: {
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingTop: 4,
+    paddingTop: 10,
     paddingBottom: 4,
     paddingLeft: 10,
     borderTopColor: "#cccccc",
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   textBox: {
     flexDirection: "row",
@@ -122,11 +145,21 @@ const styles = StyleSheet.create({
   leftText: {
     width: 80,
     borderRightColor: "#cccccc",
-    borderRightWidth: StyleSheet.hairlineWidth
+    borderRightWidth: StyleSheet.hairlineWidth,
+    fontWeight: "600"
   },
   rightText: {
     width: 100,
     paddingLeft: 10
+  },
+  storyTitle: {
+    paddingHorizontal: 10,
+    paddingBottom: 5,
+    fontWeight: "600"
+  },
+  storyContent: {
+    paddingHorizontal: 10,
+    paddingBottom: 15
   }
 });
 

@@ -35,6 +35,7 @@ const MovieList = props => (
                   release={movie.release}
                   average_grade={movie.average_grade}
                   total_reviews={movie.total_reviews}
+                  detail={false}
                 />
         })}
       </View>

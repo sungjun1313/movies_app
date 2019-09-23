@@ -28,7 +28,7 @@ const MovieNavigation = createStackNavigator(
     MovieDetail: {
       screen: MovieDetail,
       navigationOptions: ({navigation}) => ({
-        title: "Movie Detail",
+        title: navigation.getParam('title', 'Movie Detail'),
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"

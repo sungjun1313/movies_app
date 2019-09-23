@@ -52,6 +52,19 @@ class Container extends Component {
   };
 
   componentDidMount = async () => {
+    await this._getMovieDetail();
+  };
+
+  componentDidUpdate(prevProps, prevState){
+    const {movie_detail} = this.props;
+    if(movie_detail !== prevProps.movie_detail){
+      this.setState({
+        loaded: true
+      });
+    }
+  };
+
+  _getMovieDetail = async () => {
     const {getMovieDetail, navigation} = this.props;
     const movieId = navigation.getParam('movieId', -1);
     if(movieId <= 0){
@@ -69,16 +82,6 @@ class Container extends Component {
           Alert.alert('네트워크가 불안정합니다.');
         }
       }
-    }
-
-  };
-
-  componentDidUpdate(prevProps, prevState){
-    const {movie_detail} = this.props;
-    if(movie_detail !== prevProps.movie_detail){
-      this.setState({
-        loaded: true
-      });
     }
   };
 
@@ -107,7 +110,7 @@ class Container extends Component {
   _submitCreate = async (event) => {
 
     const {createBody, createGrade, isSubmittingCreate} = this.state;
-    const cinema_id = this.props.navigation.get('movieId', -1);
+    const cinema_id = this.props.navigation.getParam('movieId', -1);
     if(cinema_id <= 0){
       Alert.alert('존재하지 않는 게시글입니다.');
     }else{
@@ -137,7 +140,7 @@ class Container extends Component {
 
   _submitUpdate = async (event) => {
     const {updateBody, updateGrade, isSubmittingUpdate} = this.state;
-    const cinema_id = this.props.navigation.get('movieId', -1);
+    const cinema_id = this.props.navigation.getParam('movieId', -1);
     const myReview = this.findMine();
     if(cinema_id <= 0){
       Alert.alert('존재하지 않는 게시글입니다.');
@@ -167,7 +170,7 @@ class Container extends Component {
   _submitDelete = async (event) => {
     const {isSubmittingDelete} = this.state;
     const myReview = this.findMine();
-    const cinema_id = this.props.navigation.get("movieId", -1);
+    const cinema_id = this.props.navigation.getParam("movieId", -1);
     if(cinema_id <= 0){
       Alert.alert("존재하지 않는 게시글입니다.");
     }else{
@@ -219,7 +222,7 @@ class Container extends Component {
     });
   };
 
-  myReviewShow = () => {
+  _myReviewShow = () => {
     this.setState(prevState => {
       const mine = prevState.mine;
       return {
@@ -231,18 +234,46 @@ class Container extends Component {
 
   render(){
     const {loaded, mine, createBody, createGrade, isEditing, updateBody, updateGrade} = this.state;
-    /*
+
     const {movie_detail} = this.props;
+
     let {cinema_reviews} = movie_detail;
     if(mine){
       cinema_reviews = cinema_reviews.filter(review => review.isMine);
     }
-    */
+
 
     //console.log(cinema_reviews);
 
     return (
-      <MovieDetail />
+      <MovieDetail
+        id={movie_detail.id}
+        poster_image={movie_detail.poster_image}
+        title={movie_detail.title}
+        release={movie_detail.release}
+        director={movie_detail.director}
+        actor={movie_detail.actor}
+        average_grade={movie_detail.average_grade}
+        story={movie_detail.story}
+        total_reviews={movie_detail.total_reviews}
+        cinema_reviews={cinema_reviews}
+        loaded={loaded}
+        isEditing={isEditing}
+        createBody={createBody}
+        createGrade={createGrade}
+        updateBody={updateBody}
+        updateGrade={updateGrade}
+        changeMode={this._changeMode}
+        changeCreateBody={this._changeCreateBody}
+        changeCreateGrade={this._changeCreateGrade}
+        changeUpdateBody={this._changeUpdateBody}
+        changeUpdateGrade={this._changeUpdateGrade}
+        submitCreate={this._submitCreate}
+        submitUpdate={this._submitUpdate}
+        submitDelete={this._submitDelete}
+        getMovieDetail={this._getMovieDetail}
+        myReviewShow={this._myReviewShow}
+      />
     );
   }
 
