@@ -63,7 +63,7 @@ const ChangeProfile = (props) => (
                   <View style={styles.circleBox}>
                     <FitImage
                       source={{uri:props.profile_image}}
-                      style={{marginBottom:10}}
+                      style={styles.img}
                     />
                   </View>
 
@@ -90,7 +90,7 @@ const ChangeProfile = (props) => (
                 <View style={styles.circleBox}>
                   <FitImage
                     source={props.profile_image}
-                    style={{marginBottom:10}}
+                    style={styles.img}
                   />
                 </View>
 
@@ -187,7 +187,13 @@ const styles = StyleSheet.create({
     borderRadius: (width - 200) / 2,
     overflow: "hidden",
     justifyContent: "center",
+    alignItems: "center",
     alignSelf:"center",
+  },
+  img: {
+    width: width - 200,
+    height: width - 200,
+    resizeMode: "contain"
   },
   photoBoxTitle: {
     width: '100%',

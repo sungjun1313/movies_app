@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Alert} from 'react-native';
+import {Alert, Text} from 'react-native';
 import MovieDetail from './presenter';
 
 class Container extends Component {
@@ -128,7 +128,11 @@ class Container extends Component {
             });
           }else{
             Alert.alert(result.toString());
-            this.setState({isSubmittingCreate: false});
+            this.setState({
+              createGrade: '',
+              createBody: '',
+              isSubmittingCreate: false
+            });
           }
 
         }else{
@@ -141,7 +145,7 @@ class Container extends Component {
   _submitUpdate = async (event) => {
     const {updateBody, updateGrade, isSubmittingUpdate} = this.state;
     const cinema_id = this.props.navigation.getParam('movieId', -1);
-    const myReview = this.findMine();
+    const myReview = this._findMine();
     if(cinema_id <= 0){
       Alert.alert('존재하지 않는 게시글입니다.');
     }else{
@@ -169,7 +173,7 @@ class Container extends Component {
 
   _submitDelete = async (event) => {
     const {isSubmittingDelete} = this.state;
-    const myReview = this.findMine();
+    const myReview = this._findMine();
     const cinema_id = this.props.navigation.getParam("movieId", -1);
     if(cinema_id <= 0){
       Alert.alert("존재하지 않는 게시글입니다.");
@@ -210,7 +214,7 @@ class Container extends Component {
 
   _changeMode = () => {
 
-    const myReview = this.findMine();
+    const myReview = this._findMine();
     //console.log(myReview);
     this.setState(prevState => {
       const {isEditing} = prevState;
@@ -246,6 +250,7 @@ class Container extends Component {
     //console.log(cinema_reviews);
 
     return (
+
       <MovieDetail
         id={movie_detail.id}
         poster_image={movie_detail.poster_image}
@@ -258,6 +263,7 @@ class Container extends Component {
         total_reviews={movie_detail.total_reviews}
         cinema_reviews={cinema_reviews}
         loaded={loaded}
+        mine={mine}
         isEditing={isEditing}
         createBody={createBody}
         createGrade={createGrade}
@@ -278,5 +284,6 @@ class Container extends Component {
   }
 
 }
+
 
 export default Container;

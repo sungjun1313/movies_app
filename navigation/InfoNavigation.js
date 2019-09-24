@@ -27,7 +27,7 @@ const InfoNavigation = createStackNavigator(
     PrivacyTerms: {
       screen: PrivacyTerms,
       navigationOptions: ({navigation}) => ({
-        title: "Privacy Terms",
+        title: "개인정보처리방침",
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"
@@ -42,7 +42,7 @@ const InfoNavigation = createStackNavigator(
     TermsOfUse: {
       screen: TermsOfUse,
       navigationOptions: ({navigation}) => ({
-        title: "Terms Of Use",
+        title: "이용약관",
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"

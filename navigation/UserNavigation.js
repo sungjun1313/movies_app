@@ -28,31 +28,43 @@ const UserNavigation = createStackNavigator(
     ChangeProfile: {
       screen: ChangeProfile,
       navigationOptions: ({navigation}) => ({
-        title: "Change Profile",
+        title: "회원정보 변경",
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"
             size={30}
-            color={"black"}
+            color={"#ffffff"}
             onPress={() => navigation.goBack(null)}
             style={{paddingLeft:10}}
           />
-        )
+        ),
+        headerStyle: {
+          backgroundColor: "#4e65b4",
+        },
+        headerTitleStyle: {
+          color: "#ffffff",
+        },
       })
     },
     ChangePassword: {
       screen: ChangePassword,
       navigationOptions: ({navigation}) => ({
-        title: "Change Password",
+        title: "비밀번호 변경",
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"
             size={30}
-            color={"black"}
+            color={"#ffffff"}
             onPress={() => navigation.goBack(null)}
             style={{paddingLeft:10}}
           />
-        )
+        ),
+        headerStyle: {
+          backgroundColor: "#4e65b4",
+        },
+        headerTitleStyle: {
+          color: "#ffffff",
+        },
       })
     }
   },

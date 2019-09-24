@@ -49,7 +49,6 @@ const MovieDetail = (props) => (
                   changeGrade={props.changeUpdateGrade}
                   changeMode={props.changeMode}
                   submit={props.submitUpdate}
-                  submitDelete={props.submitDelete}
                   />
               </View>
             )
@@ -79,7 +78,7 @@ const MovieDetail = (props) => (
                 </Text>
                 <TouchableOpacity onPressOut={props.myReviewShow}>
                   <Text style={styles.reviewHeader}>
-                    내 리뷰만 보기
+                    {props.mine ? "모든 리뷰 보기" : "내 리뷰만 보기"}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -89,6 +88,7 @@ const MovieDetail = (props) => (
                           key={review.id}
                           {...review}
                           changeMode={props.changeMode}
+                          submit={props.submitDelete}
                           />
                 }else{
                   return <Comment key={review.id} {...review} />
@@ -128,6 +128,7 @@ MovieDetail.propTypes = {
     })
   ),
   loaded: PropTypes.bool.isRequired,
+  mine: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   createBody: PropTypes.string,
   createGrade: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -165,8 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 14,
     textAlign: "right",
-    marginTop: 3,
-    marginBottom: 3
+    marginBottom: 7
   },
   borderContainer: {
     width: width - 80,

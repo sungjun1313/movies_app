@@ -18,7 +18,7 @@ const CommentForm = props => (
       placeholder="후기를 작성해주세요."
     />
     <Picker
-      selectedValue={props.grade}
+      selectedValue={String(props.grade)}
       style={styles.selectBox}
       onValueChange={(itemValue, itemIndex) =>
         props.changeGrade(itemValue)
@@ -33,10 +33,10 @@ const CommentForm = props => (
       <Picker.Item label="5" value="5" />
     </Picker>
 
-    {!props.isCreate
+    {props.isCreate
       ? (
           <View style={styles.btnBox}>
-            <TouchableOpacity>
+            <TouchableOpacity onPressOut={props.submit}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>
                   저장
@@ -47,10 +47,17 @@ const CommentForm = props => (
         )
       : (
           <View style={styles.btnBox}>
-            <TouchableOpacity>
-              <View style={styles.btn}>
+            <TouchableOpacity onPressOut={props.submit}>
+              <View style={styles.updateBtn}>
                 <Text style={styles.btnText}>
                   수정
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPressOut={props.changeMode}>
+              <View style={styles.deleteBtn}>
+                <Text style={styles.btnText}>
+                  취소
                 </Text>
               </View>
             </TouchableOpacity>
@@ -69,7 +76,6 @@ CommentForm.propTypes = {
   changeGrade: PropTypes.func.isRequired,
   changeMode: PropTypes.func,
   submit: PropTypes.func.isRequired,
-  submitDelete: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -106,7 +112,10 @@ const styles = StyleSheet.create({
   btnBox: {
     width: "100%",
     alignItems: "center",
-    paddingBottom: 10
+    justifyContent: "center",
+    paddingBottom: 10,
+    flexWrap: "wrap",
+    flexDirection: "row"
   },
   btn: {
     width: 120,
@@ -116,10 +125,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#3e99ee",
     borderRadius: 5
   },
+  updateBtn: {
+    width: 70,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#5cbf00",
+    borderRadius: 5,
+    marginRight: 10
+  },
+  deleteBtn: {
+    width: 70,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#e00034",
+    borderRadius: 5
+  },
   btnText: {
     fontSize: 13,
     fontWeight: "600",
-    textAlign: "center"
+    textAlign: "center",
+    color: "#ffffff"
   }
 });
 

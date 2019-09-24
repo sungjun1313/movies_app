@@ -19,31 +19,43 @@ const AuthenticationNavigation = createStackNavigator(
     Register: {
       screen: Register,
       navigationOptions: ({navigation}) => ({
-        title: "Register",
+        title: "회원가입",
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"
             size={30}
-            color={"black"}
+            color={"#ffffff"}
             onPress={() => navigation.goBack(null)}
             style={{paddingLeft:10}}
           />
-        )
+        ),
+        headerStyle: {
+          backgroundColor: "#4e65b4",
+        },
+        headerTitleStyle: {
+          color: "#ffffff",
+        },
       })
     },
     ResetPassword: {
       screen: ResetPassword,
       navigationOptions: ({navigation}) => ({
-        title: "Reset Password",
+        title: "비밀번호 초기화",
         headerLeft: (
           <Ionicons
             name="md-arrow-round-back"
             size={30}
-            color={"black"}
+            color={"#ffffff"}
             onPress={() => navigation.goBack(null)}
             style={{paddingLeft:10}}
           />
-        )
+        ),
+        headerStyle: {
+          backgroundColor: "#4e65b4",
+        },
+        headerTitleStyle: {
+          color: "#ffffff",
+        },
       })
     }
   },

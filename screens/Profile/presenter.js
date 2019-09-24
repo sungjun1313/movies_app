@@ -27,8 +27,8 @@ const Profile = props => {
       <View style={styles.smContainer}>
         <View style={styles.circleBox}>
           {props.profile_image
-            ? <FitImage source={{uri:props.profile_image}} />
-            : <Image source={require("../../assets/images/noPhoto.jpg")} />
+            ? <FitImage source={{uri:props.profile_image}} style={styles.img} />
+            : <Image source={require("../../assets/images/noPhoto.jpg")} style={styles.img} />
           }
         </View>
 
@@ -96,10 +96,15 @@ const styles = StyleSheet.create({
     height: width-200,
     borderRadius: (width - 80) / 2,
     overflow: "hidden",
-    backgroundColor: "black",
     justifyContent: "center",
+    alignItems: "center",
     alignSelf: "center",
     marginBottom: 10
+  },
+  img: {
+    width: width-200,
+    height: width-200,
+    resizeMode: "contain"
   },
   textBox: {
     flexDirection: "row"
@@ -122,13 +127,15 @@ const styles = StyleSheet.create({
   button: {
     width: 80,
     height: 40,
-    backgroundColor: '#55cc99',
+    borderRadius: 5,
+    backgroundColor: '#4e65b4',
     justifyContent: "center"
   },
   btnText: {
     fontSize: 12,
     fontWeight: "400",
     textAlign: "center",
+    color: "#ffffff"
   }
 });
 

@@ -9,7 +9,7 @@ const AppContainer = (props) => {
   console.log('render');
   return (
   <View style={styles.container}>
-    <StatusBar hidden={true} />
+    <StatusBar hidden={false} />
     {props.isLogin ? <RootNavigation /> : <AuthenticationNavigation />}
   </View>
   );

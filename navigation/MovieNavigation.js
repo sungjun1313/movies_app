@@ -33,11 +33,17 @@ const MovieNavigation = createStackNavigator(
           <Ionicons
             name="md-arrow-round-back"
             size={30}
-            color={"black"}
+            color={"#ffffff"}
             onPress={() => navigation.goBack(null)}
             style={{paddingLeft:10}}
           />
-        )
+        ),
+        headerStyle: {
+          backgroundColor: "#4e65b4",
+        },
+        headerTitleStyle: {
+          color: "#ffffff",
+        },
       })
     }
   },
